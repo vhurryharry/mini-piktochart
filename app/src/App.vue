@@ -1,30 +1,37 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="h-100 w-100">
+    <div class="row h-100 w-100 m-0">
+      <Sidebar @add-text="addTextToCanvas" @add-image="addImageToCanvas" />
+      <Canvas :items="canvasItems" @delete-item="deleteItem" />
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+import { ref, onMounted, watch } from 'vue'
+import Sidebar from './components/Sidebar.vue'
+import Canvas from './components/Canvas.vue'
+
+const canvasItems = ref([])
+
+function addTextToCanvas(text) {
+  canvasItems.value.push({ type: 'text', content: text, id: Date.now(), x: 100, y: 100 })
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+function addImageToCanvas(url) {
+  canvasItems.value.push({ type: 'image', src: url, id: Date.now(), x: 100, y: 100 })
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+function deleteItem(id) {
+  canvasItems.value = canvasItems.value.filter(item => item.id !== id)
 }
-</style>
+
+onMounted(() => {
+  const saved = localStorage.getItem('canvasItems')
+  if (saved) canvasItems.value = JSON.parse(saved)
+})
+
+watch(canvasItems, (newVal) => {
+  localStorage.setItem('canvasItems', JSON.stringify(newVal))
+}, { deep: true })
+</script>
