@@ -6,9 +6,8 @@
             <div class="custom-file">
                 <input ref="fileInput" id="upload-image-input" name="upload" type="file" class="custom-file-input"
                     accept="image/png, image/jpeg" @change="onFileChange" />
-                <!-- <label class="custom-file-label" for="upload-image-input">Choose Image</label> -->
             </div>
-            <div class="input-group-append">
+            <div class="input-group-append mt-1">
                 <button class="btn btn-info" type="button" @click="upload">Upload</button>
             </div>
         </div>

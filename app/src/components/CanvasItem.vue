@@ -16,9 +16,21 @@ function startDrag(e) {
     const offsetX = e.offsetX
     const offsetY = e.offsetY
 
+    const canvasRect = e.target.closest('.canvas-content').getBoundingClientRect()
+    const itemRect = e.target.getBoundingClientRect()
+
     function onMouseMove(ev) {
-        props.item.x = ev.clientX - offsetX
-        props.item.y = ev.clientY - offsetY
+        // Calculate the new position
+        let newX = ev.clientX - canvasRect.left - offsetX
+        let newY = ev.clientY - canvasRect.top - offsetY
+
+        // Ensure the item stays within the canvas boundaries
+        newX = Math.max(0, Math.min(newX, canvasRect.width - itemRect.width))
+        newY = Math.max(0, Math.min(newY, canvasRect.height - itemRect.height))
+
+        // Update the item's position
+        props.item.x = newX
+        props.item.y = newY
     }
 
     function onMouseUp() {

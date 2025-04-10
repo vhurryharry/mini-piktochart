@@ -80,3 +80,9 @@ body {
 .item.selected {
   border-color: var(--cyan);
 }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

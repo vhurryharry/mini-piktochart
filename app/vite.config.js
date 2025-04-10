@@ -5,17 +5,11 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   server: {
+    host: true,
+    port: 3000,
     proxy: {
-      "/images": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/images/, ""),
-      },
-      "/uploads": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/uploads/, ""),
-      },
+      "/images": "http://localhost:8000",
+      "/uploads": "http://localhost:8000",
     },
   },
 });
